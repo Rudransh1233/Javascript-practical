@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Character Counter</title>
+  <style>
+    body {
+      background: linear-gradient(135deg, #1e0033, #330033);
+      color: #f8f8f2;
+      font-family: "Fira Code", monospace;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 15px;
+      color: #ff79c6;
+    }
+
+    textarea {
+      width: 60%;
+      height: 180px;
+      font-size: 18px;
+      padding: 12px;
+      background-color: #2a003f;
+      color: #f1fa8c;
+      border: 3px solid #bd93f9;
+      border-radius: 12px;
+      resize: none;
+      outline: none;
+      box-shadow: 0 0 12px rgba(189, 147, 249, 0.5);
+    }
+
+    #charcnt {
+      margin-top: 20px;
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: #50fa7b;
+      background: #282a36;
+      padding: 8px 16px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(80, 250, 123, 0.4);
+    }
+  </style>
+</head>
+<body>
+  <h1>Character Counter</h1>
+  <textarea id="mytext" placeholder="Start typing..."></textarea>
+  <p id="charcnt">Characters: 0</p>
+
+  <script>
+    const textarea = document.getElementById("mytext");
+    const chcount = document.getElementById("charcnt");
+
+    textarea.addEventListener("input", () => {
+      const count = textarea.value.length;
+      chcount.textContent = `Characters: ${count}`;
+    });
+  </script>
+</body>
+</html>

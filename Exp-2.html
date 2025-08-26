@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dynamic Product Filter</title>
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      background: linear-gradient(135deg, #fdfbfb, #ebedee);
+      color: #333;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 60px 20px;
+    }
+
+    .container {
+      width: 420px;
+      background: #ffffff;
+      border: none;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+      padding: 25px;
+      border-radius: 15px;
+    }
+
+    h2 {
+      margin: 0 0 20px 0;
+      font-size: 1.8rem;
+      color: #444;
+      text-align: center;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 10px;
+      font-weight: 600;
+      font-size: 1rem;
+    }
+
+    select {
+      padding: 10px 12px;
+      font-size: 1rem;
+      border: 2px solid #6c63ff;
+      border-radius: 8px;
+      width: 100%;
+      margin-bottom: 25px;
+      background: #f7f7ff;
+      color: #333;
+      outline: none;
+    }
+
+    .product {
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 14px;
+      margin-bottom: 15px;
+      background: #fafafa;
+      font-size: 1.1rem;
+      font-weight: 500;
+      transition: all 0.2s ease-in-out;
+    }
+
+    .product:hover {
+      background: #f0f0ff;
+      border-color: #6c63ff;
+      transform: translateY(-3px);
+      box-shadow: 0 4px 10px rgba(108, 99, 255, 0.2);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Available Products</h2>
+    <label for="categoryFilter">Choose a Category:</label>
+    <select id="categoryFilter">
+      <option value="all">All</option>
+      <option value="clothing">Clothing</option>
+      <option value="electronics">Electronics</option>
+      <option value="books">Books</option>
+    </select>
+
+    <div id="productList">
+      <div class="product" data-category="clothing">T-Shirt</div>
+      <div class="product" data-category="clothing">Jeans</div>
+      <div class="product" data-category="electronics">Headphones</div>
+      <div class="product" data-category="electronics">Smartphone</div>
+      <div class="product" data-category="books">Novel</div>
+      <div class="product" data-category="books">Cookbook</div>
+    </div>
+  </div>
+
+  <script>
+    const filter = document.getElementById("categoryFilter");
+    const products = document.querySelectorAll(".product");
+
+    filter.addEventListener("change", () => {
+      const selected = filter.value;
+      products.forEach((product) => {
+        if (selected === "all" || product.dataset.category === selected) {
+          product.style.display = "block";
+        } else {
+          product.style.display = "none";
+        }
+      });
+    });
+  </script>
+</body>
+</html>

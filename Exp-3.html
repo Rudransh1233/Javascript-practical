@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Interactive SVG Drawing Tool</title>
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #fdfbfb, #ebedee);
+      font-family: "Poppins", sans-serif;
+      color: #444;
+    }
+
+    .wrap {
+      width: min(95vw, 940px);
+      background: #ffffff;
+      border-radius: 14px;
+      padding: 20px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+      border: 2px solid #e0e0e0;
+    }
+
+    h2 {
+      margin: 0 0 16px 0;
+      font-weight: 600;
+      font-size: 1.6rem;
+      text-align: center;
+      color: #6c63ff;
+    }
+
+    .stage {
+      width: 100%;
+      height: 520px;
+      background: linear-gradient(180deg, #fafafa, #f5f5ff);
+      border: 2px dashed #d1d1d1;
+      border-radius: 10px;
+      cursor: crosshair;
+      display: block;
+    }
+
+    .hint {
+      margin-top: 12px;
+      font-size: 0.95rem;
+      text-align: center;
+      color: #888;
+      user-select: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h2>Draw on Canvas</h2>
+    <svg id="stage" class="stage" viewBox="0 0 1000 600" preserveAspectRatio="none"></svg>
+    <div class="hint">Hold & drag your mouse to sketch — release to finish.</div>
+  </div>
+
+  <script>
+    const svg = document.getElementById("stage");
+
+    let isDrawing = false;
+    let currentPath = null;
+
+    function svgPoint(evt) {
+      const pt = svg.createSVGPoint();
+      pt.x = evt.clientX;
+      pt.y = evt.clientY;
+      const screenCTM = svg.getScreenCTM();
+      return pt.matrixTransform(screenCTM.inverse());
+    }
+
+    function startDraw(e) {
+      isDrawing = true;
+      const p = svgPoint(e);
+
+      currentPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
+      currentPath.setAttribute("d", `M ${p.x} ${p.y}`);
+      currentPath.setAttribute("stroke", "#6c63ff"); // pastel purple stroke
+      currentPath.setAttribute("stroke-width", "3");
+      currentPath.setAttribute("fill", "none");
+      currentPath.setAttribute("stroke-linecap", "round");
+      currentPath.setAttribute("stroke-linejoin", "round");
+
+      svg.appendChild(currentPath);
+
+      e.preventDefault();
+    }
+
+    function draw(e) {
+      if (!isDrawing || !currentPath) return;
+      const p = svgPoint(e);
+      currentPath.setAttribute(
+        "d",
+        currentPath.getAttribute("d") + ` L ${p.x} ${p.y}`
+      );
+    }
+
+    function endDraw() {
+      isDrawing = false;
+      currentPath = null;
+    }
+
+    // Mouse events
+    svg.addEventListener("mousedown", startDraw);
+    svg.addEventListener("mousemove", draw);
+    svg.addEventListener("mouseup", endDraw);
+    svg.addEventListener("mouseleave", endDraw);
+  </script>
+</body>
+</html>
